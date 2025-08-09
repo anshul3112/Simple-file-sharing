@@ -17,7 +17,7 @@ const RegisterPage = () => {
 
     try {
       const response = await fetch(
-        'https://logic-locker.onrender.com/api/v1/users/register',
+        '/api/v1/users/register',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

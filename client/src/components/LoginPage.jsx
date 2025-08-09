@@ -14,7 +14,7 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://logic-locker.onrender.com/api/v1/users/login', {
+      const response = await fetch('/api/v1/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
