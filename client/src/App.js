@@ -1,50 +1,24 @@
-import './App.css';
-import {useRef,useState,useEffect} from 'react';
-import {uploadFile} from './services/api';
-
-function App() {
-
-  const [file,setFile] = useState("");
-  const [result,setResult] = useState('');
-
-  const fileInputRef = useRef();
-
-  const onUploadClick = () => {
-    fileInputRef.current.click();
-  }
-
-  useEffect(() => {
-    const getImage = async () => {
-
-      if(file){
-        const data  = new FormData();
-        data.append("name",file.name);
-        data.append("file",file);
-
-        let response = await uploadFile(data);
-        setResult(response.path);
-      }
-
-    };
-    getImage();
-  },[file]);
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+import FileUpload from "./FileUpload";
+function App() { 
 
   return (
-    <div className="container">
-      <img src="uploadIcon.svg" alt="banner"/>
-      <div className="wrapper">
-        <h1>Simple file sharing</h1>
-        <p>Upload and share the download link.</p>
-        <button onClick= {() => {onUploadClick()}}>Upload</button>
-        <input type="file"
-          ref = {fileInputRef}
-          style ={{display : 'none'}}
-          onChange = {(e) => setFile(e.target.files[0])}
-        />
+    <Router>
+      <nav style={{ padding: "10px", background: "#eee" }}>
+        <Link to="/" style={{ marginRight: "10px" }}>Login</Link>
+        <Link to="/register" style={{ marginRight: "10px" }}>Register</Link>
+        <Link to="/upload">File Upload</Link>
+      </nav>
 
-        <a href = {result} target="_blank" >{result}</a>
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/upload" element={<FileUpload />} />
+      </Routes>
+    </Router>
   );
 }
 

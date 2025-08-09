@@ -1,21 +1,41 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from 'mongoose';
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2';
 
-const fileSchema = new mongoose.Schema({
-    path : {
-        type : String,
-        required : true
+const fileSchema = new Schema({
+    fileUrl: {
+        type: String,
+        required: true,
     },
-    name : {
-        type : String,
-        required : true
+    thumbnail: {
+        type: String,
+        required: true,
     },
-    downloadContent : {
-        type : Number,
-        required : true,
-        default : 0
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    size: {
+        type: Number, // file size in bytes
+        required: true,
+    },
+    views: {
+        type: Number,
+        default: 0,
+    },
+    isPublished: {
+        type: Boolean,
+        default: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
-})
+});
 
-const File = mongoose.model('file',fileSchema);
+fileSchema.plugin(mongooseAggregatePaginate);
 
-export default File;
+export const File = mongoose.model("File", fileSchema);

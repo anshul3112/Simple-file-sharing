@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 
-const DBConnection = async () => {
-    
-    const MONGODB_URI = `mongodb+srv://user:filesharingalpha@FILE-SHARING.jmxuom9.mongodb.net/?retryWrites=true&w=majority&appName=FILE-SHARING`;
+const DBConnection = async () => {     
     try{
-        await mongoose.connect(MONGODB_URI, {  useNewUrlParser: true});
+        await mongoose.connect(process.env.MONGO_DB_URI, {  useNewUrlParser: true});
         console.log("Database connected successfully");
     }catch(error)
     {
