@@ -22,7 +22,7 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        navigate('/snippets');
+        navigate('/upload'); // Navigate to upload or another appropriate page
       } else {
         setError('Invalid email or password.');
       }
@@ -34,14 +34,23 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-      <div className="backdrop-blur-lg bg-white/10 p-8 rounded-2xl shadow-xl w-full max-w-md border border-white/20">
-        <h1 className="text-4xl font-bold text-white text-center mb-4">Login</h1>
-        <p className="text-white/70 text-center mb-8">Access your account to manage snippets</p>
+    // The background now matches the main App's gradient
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Login to FileShare
+          </h1>
+          <p className="mt-2 text-gray-600">
+            Access your account to manage and share files.
+          </p>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-white text-sm mb-1">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               id="email"
               type="email"
@@ -49,13 +58,15 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
-              className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-pink-300"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-white text-sm mb-1">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -63,25 +74,27 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-pink-300"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="••••••••"
             />
           </div>
 
-          {error && <p className="text-red-300 text-sm text-center">{error}</p>}
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white py-2 rounded-lg transition disabled:bg-pink-300"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 disabled:bg-blue-300"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <p className="text-white/70 text-sm text-center mt-6">
+        <p className="text-sm text-center text-gray-600">
           Don't have an account?{' '}
-          <Link to="/register" className="text-pink-300 hover:underline">Register</Link>
+          <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500 hover:underline">
+            Register
+          </Link>
         </p>
       </div>
     </div>
