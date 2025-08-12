@@ -10,7 +10,7 @@ const fileSchema = new Schema({
         required: true,
         trim : true
     },
-    owner : {
+    ownerId : {
         type: Schema.Types.ObjectId,
         ref: "User",
         required : true,
