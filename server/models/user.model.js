@@ -2,44 +2,24 @@ import mongoose , {Schema} from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema({
-    username : {
-        type : String,
-        required : true,
-        unique : true,
-        lowercase : true,
-        trim : true,
-        index  : true,  // for searching feild
-    },
+const userSchema = new Schema({ 
     email : {
         type : String,
         required : true,
         unique : true,
         lowercase : true,
         trim : true,
+        index : true
     },
-    fullname : {
+    name : {
         type : String,
         required : true,
         trim : true,
-        index  : true,  // for searching feild
-    },
-    avatar : {
-        type : String, // cloudinary URL
-        required : true,
-    },
-    coverImage : {
-        type : String,
-    },
-    watchHistory :[
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Video"
-        }
-    ],
+    }, 
     password : {
         type : String,
         required : [true , "Password is required"],
+        trim : true
     },
     refreshToken : {
         type : String,
@@ -64,8 +44,7 @@ userSchema.methods.generateAccessToken = function() {
     {
     _id : this._id,
     email : this.email,
-    username : this.username,
-    fullname : this.fullname
+    name : this.name,
     }
     ,process.env.ACCESS_TOKEN_SECRET,
 

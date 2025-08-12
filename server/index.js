@@ -1,17 +1,20 @@
-import express from 'express';
-import router from './routes/routes.js';  
-import cors from 'cors';
-import DBConnection from './database/db.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const app = express();
+import connectDB from './config/db.js';
+import { app } from './app.js';  
 
-DBConnection();
+connectDB()
+.then(() => {
+     app.on("error" , (error) => {
+            console.log("Error occured" , error);
+            throw error;
+    });
 
-app.use(cors());
-app.use('/',router);
-
-const PORT = 8000;  
-
-app.listen(PORT, () => {
-    console.log(`Server is running on PORT ${PORT}`);
-});
+    app.listen(process.env.PORT || 8000, ()=> {
+        console.log(`Server is listening on PORT  : ${process.env.PORT}`);
+    });
+})
+.catch((err) => {
+     console.log("DB connection error",err);
+})
