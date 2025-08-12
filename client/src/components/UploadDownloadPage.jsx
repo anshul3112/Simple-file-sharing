@@ -5,27 +5,21 @@ const UploadDownload = () => {
   const [downloadLink, setDownloadLink] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  // Handles navigation to the file upload page
+ 
   const handleUploadClick = () => {
-    navigate('/upload'); // Navigate to your file upload component's route
+    navigate('/upload'); 
   };
 
   // Handles the file download logic
   const handleDownloadClick = (e) => {
     e.preventDefault();
     setError('');
-
-    // Basic validation to ensure the link isn't empty
-    if (!downloadLink.trim()) {
+     if (!downloadLink.trim()) {
       setError('Please paste a valid file link.');
       return;
     }
 
-    // This simply opens the link. Your backend, which receives this request,
-    // is responsible for adding the necessary headers or URL flags
-    // (like Cloudinary's 'fl_attachment') to force a download.
-    try {
+     try {
       window.open(downloadLink, '_blank', 'noopener,noreferrer');
     } catch (err) {
       setError('Could not open the link. Please check if it is correct.');
