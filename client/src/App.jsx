@@ -40,7 +40,7 @@ function App() {
       <header className="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-10">
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <NavLink to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
-            FileShare
+            FileForge
           </NavLink>
           <div className="flex items-center space-x-6 md:space-x-8">
             <NavLink to="/" className={navLinkClasses}>
