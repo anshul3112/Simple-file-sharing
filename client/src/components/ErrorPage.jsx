@@ -10,7 +10,7 @@ const ErrorPage = () => {
         The page you're looking for doesn't exist or has been moved.
       </p>
       <Link
-        to="/" // Link to the homepage
+        to="/"
         className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
       >
         Go Back Home

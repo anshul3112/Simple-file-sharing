@@ -1,6 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
-// Assuming 'uploadFile' is a function you've defined to handle the API call
-// import { uploadFile } from '../services/api'; 
+import React, { useRef, useState, useEffect } from 'react'; 
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);

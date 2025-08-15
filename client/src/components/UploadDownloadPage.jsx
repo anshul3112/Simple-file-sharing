@@ -10,7 +10,6 @@ const UploadDownload = () => {
     navigate('/upload'); 
   };
 
-  // Handles the file download logic
 const handleDownloadClick = async (e) => {
     e.preventDefault();
     setError('');
