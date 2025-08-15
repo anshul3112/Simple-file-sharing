@@ -25,7 +25,7 @@ const LoginPage = () => {
       if (response.ok) {
         const res = await response.json();
         console.log(res.data.user._id);
-        navigate('/upload' , { state: { userId: res.data.user._id } }); // Navigate to upload or another appropriate page
+        navigate('/home' , { state: { userId: res.data.user._id } }); // Navigate to upload or another appropriate page
       } else {
         setError('Invalid email or password.');
       }

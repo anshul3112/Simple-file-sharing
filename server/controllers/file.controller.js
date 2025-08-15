@@ -11,11 +11,7 @@ const uploadFile = asyncHandler(async (req, res) => {
     const localFilePath = req.file?.path;
     
     let {accessList} = req.body;
-    let accessListAsObjectIds = []; 
-
-    if (accessList) {
-        accessListAsObjectIds = accessList.map(id => new mongoose.Types.ObjectId(id));
-    }  
+    let accessListAsObjectIds = accessList
 
     if (!localFilePath) {
         throw new ApiError(400, "File is required for upload.");

@@ -1,57 +1,65 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const UploadDownload = () => {
   const [downloadLink, setDownloadLink] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
- 
+  const location = useLocation();
+
+  const userId = location.state?.userId;
+
   const handleUploadClick = () => {
-    navigate('/upload'); 
+    navigate('/upload');
   };
 
-const handleDownloadClick = async (e) => {
+  const handleDownloadClick = async (e) => {
     e.preventDefault();
     setError('');
 
     const apiUrl = downloadLink.trim();
 
     if (!apiUrl) {
-        setError('Please paste the API link.');
-        return;
+      setError('Please paste the API link.');
+      return;
     }
 
     try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            credentials : 'include'
-        });
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        credentials: 'include'
+      });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch download link.');
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch download link.');
+      }
 
-        const data = await response.json();
+      const data = await response.json();
+      console.log(data)
+      const actualDownloadLink = data.data.actualDownloadLink;
 
-        // 2. Get the actual download link from the response
-        console.log(data)
-        const actualDownloadLink = data.data.actualDownloadLink;
-
-        if (!actualDownloadLink) {
-            throw new Error("Download link not found in the server response.");
-        }
-        window.open(actualDownloadLink, '_blank', 'noopener,noreferrer');
+      if (!actualDownloadLink) {
+        throw new Error("Download link not found in the server response.");
+      }
+      window.open(actualDownloadLink, '_blank', 'noopener,noreferrer');
 
     } catch (err) {
-        setError(err.message || 'An error occurred. Please check the link and try again.');
+      setError(err.message || 'An error occurred. Please check the link and try again.');
     }
-};
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 via-cyan-500 to-blue-500 p-4">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 via-cyan-500 to-blue-500 p-4">
+
+      {userId && (
+        <div className="absolute top-4 right-4 bg-white/30 backdrop-blur-sm text-gray-800 font-mono text-xs px-3 py-1 rounded-full shadow">
+          UserID: {userId}
+        </div>
+      )}
+
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-8 space-y-8">
-        
+
         {/* Upload Section */}
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-800">Upload a New File</h2>
@@ -107,4 +115,4 @@ const handleDownloadClick = async (e) => {
   );
 };
 
-export default UploadDownload;
+export default UploadDownload; 
