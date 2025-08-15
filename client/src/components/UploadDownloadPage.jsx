@@ -11,20 +11,43 @@ const UploadDownload = () => {
   };
 
   // Handles the file download logic
-  const handleDownloadClick = (e) => {
+const handleDownloadClick = async (e) => {
     e.preventDefault();
     setError('');
-     if (!downloadLink.trim()) {
-      setError('Please paste a valid file link.');
-      return;
+
+    const apiUrl = downloadLink.trim();
+
+    if (!apiUrl) {
+        setError('Please paste the API link.');
+        return;
     }
 
-     try {
-      window.open(downloadLink, '_blank', 'noopener,noreferrer');
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            credentials : 'include'
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to fetch download link.');
+        }
+
+        const data = await response.json();
+
+        // 2. Get the actual download link from the response
+        console.log(data)
+        const actualDownloadLink = data.data.actualDownloadLink;
+
+        if (!actualDownloadLink) {
+            throw new Error("Download link not found in the server response.");
+        }
+        window.open(actualDownloadLink, '_blank', 'noopener,noreferrer');
+
     } catch (err) {
-      setError('Could not open the link. Please check if it is correct.');
+        setError(err.message || 'An error occurred. Please check the link and try again.');
     }
-  };
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-400 via-cyan-500 to-blue-500 p-4">

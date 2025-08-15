@@ -14,7 +14,8 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/v1/users/login', {
+      const response = await fetch('http://localhost:8000/api/v1/users/login', { 
+      
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -22,7 +23,9 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        navigate('/upload'); // Navigate to upload or another appropriate page
+        const res = await response.json();
+        console.log(res.data.user._id);
+        navigate('/upload' , { state: { userId: res.data.user._id } }); // Navigate to upload or another appropriate page
       } else {
         setError('Invalid email or password.');
       }

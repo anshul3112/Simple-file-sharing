@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { uploadFile, downloadFile, deleteFile } from "../controllers/file.controller.js";
-import { upload } from "../middleware/multer.middleware.js";
-import { verifyJWT } from "../middleware/auth.middleware.js";
+import { upload } from "../middleware/multer.js";
+import { verifyJWT } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
@@ -11,12 +11,9 @@ router.route('/upload').post(
     uploadFile
 );
 
-router.route('/share/:fileId').get(
+router.route('/download/:fileId').post(
+    verifyJWT,
     downloadFile
 );
-
-router.route('/delete/:fileId').post(
-    deleteFile
-);
-
+ 
 export default router;

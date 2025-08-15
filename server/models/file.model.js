@@ -16,7 +16,7 @@ const fileSchema = new Schema({
         required : true,
         index : true
     },
-    accessTOUsers : [{
+    accessList : [{
         type: Schema.Types.ObjectId,
         ref: "User"
     }]

@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
+  const [accessList, setAccessList] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,19 +25,36 @@ const FileUpload = () => {
         data.append("name", file.name);
         data.append("file", file);
 
-        try {
-          console.log("Uploading file:", file.name);
-          // Simulate a network delay
-          await new Promise(resolve => setTimeout(resolve, 1500)); 
-          // Mock a successful response
-          const mockResponse = { path: `https://yourapp.com/share/${Date.now()}` };
-          setResult(mockResponse.path);
+        // Process and append the access list IDs
+        const ids = accessList.split(',').map(id => id.trim()).filter(id => id); // filter removes empty strings
+        ids.forEach(id => {
+          data.append("accessList", id);
+        });
 
-        } catch (err) {
-          setError('Failed to upload file. Please try again.');
-        } finally {
-          setLoading(false);
-        }
+try {
+  console.log("Uploading file:", file.name);
+  console.log("With access list:", ids);
+
+  const response = await fetch('http://localhost:8000/api/v1/files/upload', {
+    method: 'POST',
+    body: data,
+    credentials : 'include' 
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'An unknown error occurred.' }));
+    throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+  }
+
+  const responseData = await response.json();
+  console.log(responseData);
+  setResult(responseData.data); 
+
+} catch (err) {
+  setError(err.message || 'Failed to upload file. Please try again.');
+} finally {
+  setLoading(false);
+}
       }
     };
     upload();
@@ -54,6 +72,22 @@ const FileUpload = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Simple File Sharing</h1>
           <p className="mt-2 text-gray-600">Upload a file and share the download link instantly.</p>
+        </div>
+
+        {/* Access List Input */}
+        <div className="w-full max-w-xs mx-auto">
+          <label htmlFor="accessList" className="text-left block text-sm font-medium text-gray-700 mb-1">
+            Share with (User IDs, comma separated)
+          </label>
+          <input
+            type="text"
+            id="accessList"
+            value={accessList}
+            onChange={(e) => setAccessList(e.target.value)}
+            placeholder="60d5f...e9a, 60d5f...f8b"
+            className="w-full border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={loading}
+          />
         </div>
 
         {/* Upload Button */}
@@ -106,4 +140,4 @@ const FileUpload = () => {
   );
 }
 
-export default FileUpload;
+export default FileUpload; 

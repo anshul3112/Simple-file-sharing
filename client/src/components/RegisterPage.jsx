@@ -17,7 +17,7 @@ const RegisterPage = () => {
 
     try {
       const response = await fetch(
-        '/api/v1/users/register',
+        'http://localhost:8000/api/v1/users/register', 
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
