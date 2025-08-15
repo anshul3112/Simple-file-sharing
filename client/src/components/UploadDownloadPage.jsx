@@ -32,7 +32,7 @@ const UploadDownload = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch download link.');
+        throw new Error('Failed to fetch download link.');
       }
 
       const data = await response.json();
@@ -45,7 +45,7 @@ const UploadDownload = () => {
       window.open(actualDownloadLink, '_blank', 'noopener,noreferrer');
 
     } catch (err) {
-      setError(err.message || 'An error occurred. Please check the link and try again.');
+      setError('An error occurred. Please check the link and try again.');
     }
   };
 
